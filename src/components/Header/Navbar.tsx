@@ -1,15 +1,19 @@
+'use client'
+
 import Link from "next/link"
 import { FaLock } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa6";
+import {  usePathname } from 'next/navigation';
 
 const Navbar=()=>{
+    const pathname=usePathname();
 
-    const NavLinks=[
-        {name:"Home",path:"/home" },
+    const links=[
+        {name:"Home",path:"/" },
         {name:"About",path:"/About" },
-        {name:"Contact",path:"/contact" },
-        {name:"Contact",path:"/contact" },
-        {name:"Contact",path:"/contact" },
+        {name:"Departments",path:"/Departments" },
+        {name:"Blogs",path:"/Blogs" },
+        {name:"Contact us",path:"/ContactUs" },
 
 
        
@@ -27,18 +31,13 @@ const Navbar=()=>{
 
     {/* nav links */}
 
-    <div className="flex gap-8 ml-[300px]">
-        {
-            NavLinks.map((item, index)=>{
-                return(
-                    <>
-                    <Link  href={item.path} className="text-slate-700 text-[17px] font-medium" key={index}>{item.name}</Link>
-                    </>
-                )
-
-            })
-        }
-    </div>
+    <nav className='flex gap-8'>
+      {
+        links.map((link,index)=>{
+          return<Link href={link.path} key={index} className={`${link.path===pathname && "text-green-500 border-b-2 border-green-500"} capitalize font-medium hover:text-green-500 transition all`}>{link.name}</Link>
+        })
+      }
+    </nav>
 
 {/* login sign up buttons */}
     <div className="mr-[100px] flex gap-4">
