@@ -15,6 +15,7 @@ const Header=()=>{
 
     return(
     <>
+    <div className="sticky top-0 z-50  dark:bg-gray-900 bg-white ">
          <div className="pt-4 pb-4  lg:hidden">
             
 <div className='text-center flex  items-center gap-4 font-bold text-4xl'><Link href="/"><h1 className="p-3 pt-0" >Noteshala</h1></Link><FaBars onClick={toggleNav}/></div>
@@ -33,8 +34,9 @@ const Header=()=>{
    
 
 
-    
-    </>)
+        </div>
+    </>
+    )
 }
 
 export default Header;

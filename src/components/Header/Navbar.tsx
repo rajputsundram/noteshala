@@ -24,7 +24,7 @@ const Navbar=()=>{
     const {theme,setTheme}=useTheme();
     return(<>
   
-    <div className="flex h-32 items-center justify-between">
+    <div className="flex h-32 items-center  justify-between">
 
   {/* logo */}
 

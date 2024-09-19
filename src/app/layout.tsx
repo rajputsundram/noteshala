@@ -19,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeProvider attribute="class">
+      
         <Header/>
+     
         {children}
         <Footer/>
         </ThemeProvider>
