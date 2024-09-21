@@ -23,9 +23,9 @@ const CarouselComponents = () => {
           return(
             <>
             <div className='relative'>
-<div className='object-center  brightness-100' style={{maxHeight:"38rem"}}>
+<div className='object-center  brightness-100' style={{maxHeight:"39rem"}}>
   <div className='flex justify-center absolute  bg-transparent text-visible  z-50 items-center text-green-600 h-full w-full'>
-    <div className=' rounded  h-80 flex flex-col justify-center items-center w-72 bg-opacity-30 bg-white text-black hover:bg-green-800 transition-all duration-800 ease-out hover:text-white'>
+    <div className=' rounded  h-80 flex flex-col justify-center items-center w-72 bg-opacity-30 bg-white text-green-950 hover:bg-green-800 transition-all duration-800 ease-out hover:text-white'>
     <h1 className='text-5xl font-bold pb-4'>{imglink.name}</h1>
     <Link href={imglink.path}>
     <button className='bg-green-500 flex justify-center items-center gap-2  hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full'>visit now <GoLinkExternal/></button>

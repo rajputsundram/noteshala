@@ -34,9 +34,9 @@ function Login() {
                     dark:text-gray-100 ' />
                 </div>
                 <div className='fle x justify-between items-center'>
-                <button type="submit" className='border font-bold dark:border-gray-400 border-gray-900 rounded mr-2 p-2 hover:bg-gradient-to-r from-indigo-700'>Log in</button>
+                <button type="submit" className='border font-bold dark:border-gray-400 border-gray-900 rounded mr-2 p-2 hover:bg-green-600 hover:text-white'>Log in</button>
                 <Link href={"/signup"} style={{all:"unset"}}>
-                <button type="button" className='border font-bold dark:border-gray-400 border-gray-900 rounded mr-2 p-2 hover:bg-gradient-to-r from-indigo-700'>New User?</button>
+                <button type="button" className='border font-bold dark:border-gray-400 border-gray-900 rounded mr-2 p-2 hover:bg-green-600 hover:text-white'>New User?</button>
                 </Link>
                 </div>
                 
