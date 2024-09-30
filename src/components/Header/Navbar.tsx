@@ -1,12 +1,14 @@
 'use client'
 
 import Link from "next/link"
+
 import { FaLock } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa6";
 import {  usePathname } from 'next/navigation';
 import { MdOutlineDarkMode } from "react-icons/md";
 import { MdOutlineLightMode } from "react-icons/md";
 import { useTheme } from 'next-themes';
+import Image from "next/image";
 
 const Navbar=()=>{
     const pathname=usePathname();
@@ -28,8 +30,8 @@ const Navbar=()=>{
 
   {/* logo */}
 
-  <Link href={""} className="flex justify-center items-center w-64">
-  <p className="text-red font-extrabold text-[40px]">Noteshala</p>
+  <Link href={"/"} className="flex  justify-center items-center w-64">
+  <div className=" ml-9 flex text-red font-extrabold text-[40px] text-blue-950 dark:text-white"><Image src="/images/Pietlogo.png" width={40} height={10} alt="logo"/><p className="ml-2 font-serif">Noteshala</p></div>
 
   </Link>
 

@@ -10,12 +10,12 @@ const Highlights = () => {
     
     <>
     
-    <div className=' flex  flex-col  h-[700px] justify-center items-center '>
-      <div className=' flex items-center h-44 mb-4'>
+    <div className=' flex  sm:mt-0 mt-24 flex-col sm:h-[700px] h-[1000px] justify-center items-center '>
+      <div className=' flex items-center h-44 sm:mb-4 mb-16'>
       <h1 className='text-gray-700 dark:text-white font-semibold  border-b-[4px] border-b-green-400   text-4xl'>Highlights</h1>
       </div>
 
-    <div className=' flex justify-center gap-8 items-center flex-wrap'>
+    <div className=' flex justify-center gap-16 sm:gap-8 items-center flex-wrap'>
      {
       Highlts.map((items,index)=>{
         return(<>

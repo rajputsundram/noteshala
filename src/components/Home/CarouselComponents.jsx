@@ -1,14 +1,20 @@
 'use client'
 import React from 'react'
+import Image from 'next/image';
 import Link from 'next/link';
 import { GoLinkExternal } from "react-icons/go";
 
-
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import BCACtis from "@/../../public/images/BCACtis.jpg"
+import BCADS from "@/../../public/images/BCADS.jpg"
+import BCAGen from "@/../../public/images/BCAGen.jpg"
+import MCA from "@/../../public/images/MCA.jpg"
+
+
 
 const CarouselComponents = () => {
-  const images=[{images:'https://www.thehighereducationreview.com/newsimagespl/C8u62mHV.jpeg',name:"BCA",path:'/bca'},{images:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCg5F4Dhi67K0cr7HnoHxp7z1Qc02jfPtw8g&s',name:"MCA",path:'/mca'},{images:'https://www.krmangalam.edu.in/wp-content/uploads/2024/05/128.jpg',name:"BCA-DS",path:'/bcads'},{images:'https://d1aeya7jd2fyco.cloudfront.net/thumbnail/online-bca-in-cloud-and-security...webp',name:"BCA-CTIS",path:'/bcactis'},]
+  const Allimages=[{images:BCACtis,name:"BCA_CTIS",path:'/bcactis '},{images: BCADS,name:"BCA-DS",path:'/ bcads'},{images:BCAGen,name:"BCA-GEN.",path:'/ bca'},{images:MCA,name:"MCA",path:'/mca'},]
   return (
    <Carousel
      autoPlay
@@ -19,7 +25,7 @@ const CarouselComponents = () => {
       showStatus={false}>
 
         {
-        images.map((imglink)=>{
+        Allimages.map((imglink)=>{
           return(
             <>
             <div className='relative'>
@@ -34,7 +40,17 @@ const CarouselComponents = () => {
    
     </div>
   </div>
-  <img src={imglink.images} alt="pizza" />
+  <div className='h-full w-full'>
+
+  <Image 
+                  src={imglink.images} 
+                  alt={imglink.name} 
+                  layout="responsive" 
+                  width={700} 
+                  height={475} 
+                  className='object-cover' 
+                />
+  </div>
 
 </div>
 </div>

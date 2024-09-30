@@ -13,10 +13,10 @@ const SocialIcons=[{icons:<BsTwitterX/>,path:""},{icons:<FaInstagram/>,path:""},
 
     return(
         <>
-        <div className="bg-blue-950 h-[450px] flex flex-col justify-center items-center ">
-            <div className="container   flex justify-center flex-wrap  gap-6 items-center ">
+        <div className="bg-blue-950 h-auto sm:h-[450px] flex flex-col justify-center items-center ">
+            <div className="container    flex justify-start sm:justify-center flex-wrap   sm:gap-6  sm:items-center ">
             {/* first section */}
-            <div className=" flex flex-col w-96 h-72 gap-7 p-7 pt-0">
+            <div className=" flex flex-col w-96 h-52  sm:h-72 gap-7 p-7   sm:pt-0">
                 <h1 className="font-semibold text-xl w-24 text-white border-b-2 border-spacing-5">Noteshala</h1>
                 <div className="flex flex-col justify-start items-start gap-3">
                 <p className="text-white ">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rem, eum.</p>
@@ -26,7 +26,7 @@ const SocialIcons=[{icons:<BsTwitterX/>,path:""},{icons:<FaInstagram/>,path:""},
 
             </div>
             {/* Second Sections */}
-            <div className="flex flex-col w-52  h-72">
+            <div className="flex flex-col w-52 h-52 p-7  sm:pt-0 sm:h-72 ">
                 <h1 className="font-semibold text-xl text-white  border-b-2  w-32 mb-6">Departments</h1>
                
                <div className="flex flex-col text-green-500 text-sm gap-1">
@@ -40,7 +40,7 @@ const SocialIcons=[{icons:<BsTwitterX/>,path:""},{icons:<FaInstagram/>,path:""},
                     </div>
             </div>
             {/* Third section */}
-            <div className="flex flex-col w-52  h-72">
+            <div className="flex flex-col w-52  h-52 p-7  sm:pt-0 sm:h-72 ">
                 <h1 className="font-semibold text-xl text-white  border-b-2 mb-6 w-[145px]">Important links</h1>
 <div className="text-green-500 flex flex-col">
       {
@@ -55,7 +55,7 @@ const SocialIcons=[{icons:<BsTwitterX/>,path:""},{icons:<FaInstagram/>,path:""},
 
             </div>
 {/* social media Sections */}
-            <div className="w-52  h-72">
+            <div className="w-full sm:w-80  h-52 p-7  sm:pt-0 sm:h-72">
                 <h1 className="font-semibold text-xl text-white border-b-2 mb-6 w-[125px] ">Social Media</h1>
                 <div className="flex ">
                 {
@@ -77,7 +77,7 @@ const SocialIcons=[{icons:<BsTwitterX/>,path:""},{icons:<FaInstagram/>,path:""},
             </div>
 
             </div>
-            <div  className="flex text-white mb-2  justify-center items-center">
+            <div  className="flex text-white mb-2 h-20   justify-center items-center">
             <p>Copyright &copy;2024 All right reserved</p>
            </div>
         </div>

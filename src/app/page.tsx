@@ -5,6 +5,7 @@ import PopularCourse from '@/components/Home/PopularCourse'
 
 export default function Home() {
   return (
+    <>
    <div className="">
     <SliderImage/>
     <Highlights/>
@@ -15,5 +16,6 @@ export default function Home() {
 
   
 </div>
+</>
   );
 }
