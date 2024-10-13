@@ -1,10 +1,10 @@
 'use client'
 import React from 'react';
 import Image from 'next/image';
-import Clang from '../../../public/images/Cprog.png';
-import Cpp from '../../../public/images/Cpp.png';
-import Java from '../../../public/images/Java.png';
-import DSA from '../../../public/images/dsa.png';
+import Clang from '/public/images/Cprog.png';
+import Cpp from '/public/images/Cpp.png';
+import Java from '/public/images/Java.png';
+import DSA from '/public/images/dsa.png';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Link from 'next/link';
