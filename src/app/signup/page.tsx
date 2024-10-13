@@ -8,8 +8,23 @@ const Signup = () => {
 
     const [credentials,setCreadentials]=useState({name:"",email:"",password:"",geolocation:""});
 
+    const isValidEmail=(email)=>{
+        const emailRegex=/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        return emailRegex.test(email);
+
+    };
+
+    if(!isValidEmail){
+        return;
+    }
+
     const handleSubmit=(e)=>{
         e.preventDefault();
+        const name=e.target[0].value;
+        const email=e.target[1].value;
+        const password=e.target[2].value;
+        const departments=e.target[3].value;
+// console.log(email,password,name,departments)
 
     } 
     const handleChange=(e)=>{
@@ -43,9 +58,9 @@ const Signup = () => {
                     name='geolocation' type="text" placeholder='' value={credentials.geolocation} className='shadow appearance-none border-gray-300 rounded w-full py-2 px-3 focus:border-indigo-700 text-gray-900 dark:text-gray-100' />
                 </div>
                 <div className='fle x justify-between items-center'>
-                <button type="submit" className='border font-bold dark:border-gray-400 border-gray-900 rounded mr-2 p-2 hover:bg-gradient-to-r from-indigo-700'>Sign Up</button>
+                <button type="submit" className='border font-bold dark:border-gray-400 border-gray-900 rounded mr-2 p-2 hover:bg-green-600 hover:text-white'>Sign Up</button>
                 <Link href={"/login"} style={{all:"unset"}}>
-                <button type="button" className='border font-bold dark:border-gray-400 border-gray-900 rounded mr-2 p-2 hover:bg-gradient-to-r from-indigo-700 text-gray-900 dark:text-gray-100'>Already a user?</button>
+                <button type="button" className='border font-bold dark:border-gray-400 border-gray-900 rounded mr-2 p-2 hover:bg-green-600 hover:text-white text-gray-900 dark:text-gray-100'>Already a user?</button>
                 </Link>
                 </div>
                 

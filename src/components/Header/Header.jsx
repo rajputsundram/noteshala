@@ -1,6 +1,6 @@
 'use client'
-import Navbar from "@/components/Header/Navbar";
-import MobileNav from "@/components/Header/MobileNav"
+import Navbar from "./Navbar";
+import MobileNav from "./MobileNav"
 import { useState } from "react";
 import Link from "next/link";
 import { FaBars } from "react-icons/fa6";
