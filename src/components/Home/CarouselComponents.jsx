@@ -14,7 +14,7 @@ import MCA from "@/../../public/images/MCA.jpg"
 
 
 const CarouselComponents = () => {
-  const Allimages=[{images:BCACtis,name:"BCA_CTIS",path:'/bcactis '},{images: BCADS,name:"BCA-DS",path:'/ bcads'},{images:BCAGen,name:"BCA-GEN.",path:'/ bca'},{images:MCA,name:"MCA",path:'/mca'},]
+  const Allimages=[{images:BCACtis,name:"BCA_CTIS",path:'/bcactis '},{images: BCADS,name:"BCA-DS",path:'/bcads'},{images:BCAGen,name:"BCA-GEN.",path:'/bca'},{images:MCA,name:"MCA",path:'/mca'},]
   return (
    <Carousel
      autoPlay
@@ -29,12 +29,12 @@ const CarouselComponents = () => {
           return(
             <>
             <div className='relative'>
-<div className='object-center  brightness-100' style={{maxHeight:"39rem"}}>
+<div className='object-center  brightness-100' style={{maxHeight:"38rem"}}>
   <div className='flex justify-center absolute  bg-transparent text-visible  z-50 items-center text-green-600 h-full w-full'>
-    <div className=' rounded  h-80 flex flex-col justify-center items-center w-72 bg-opacity-30 bg-white text-green-950 hover:bg-green-800 transition-all duration-800 ease-out hover:text-white'>
-    <h1 className='text-5xl font-bold pb-4'>{imglink.name}</h1>
+    <div className=' '>
+   
     <Link href={imglink.path}>
-    <button className='bg-green-500 flex justify-center items-center gap-2  hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full'>visit now <GoLinkExternal/></button>
+    <button className='bg-green-500 h-[50px] flex justify-center items-center gap-2 text-lg hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg'>Learn More <GoLinkExternal/></button>
     
     </Link>
    
@@ -46,8 +46,8 @@ const CarouselComponents = () => {
                   src={imglink.images} 
                   alt={imglink.name} 
                   layout="responsive" 
-                  width={700} 
-                  height={475} 
+                  width={500} 
+                  height={300} 
                   className='object-cover' 
                 />
   </div>

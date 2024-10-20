@@ -105,10 +105,25 @@ function BcaCtis() {
    </div>
 
 
+{/* filter year */}
+
+<div className=' justify-start  '>
+  <div className='flex justify-start items-end space-x-9 ml-[230px]  h-28'>
+    <div>
+      <button className='hover:bg-green-600 hover:text-white bg-white h-[40px] w-[110px] rounded-full text-lg font-medium text-green-800 hover:shadow-green-600 shadow-lg '>First Year</button>
+      </div>
+    <div><button className='bg-white h-[40px] hover:bg-green-600 hover:text-white w-[110px] max-w-[200px] rounded-full text-lg font-medium text-green-600 hover:shadow-green-600 shadow-lg '>Second Year</button></div>
+    <div><button className='bg-white h-[40px] hover:bg-green-600 hover:text-white w-[110px] rounded-full text-lg font-medium hover:shadow-green-600 shadow-lg  text-green-600'>Third Year</button></div>
+  </div>
+
+  <div className='bg-white h-[1px] mt-6  w-[73%] ml-[230px]'></div>
+</div>
+
+
    {/* card Section */}
 
 
-   <div className='h-[700px]  flex justify-center items-center'>
+   <div className='h-[600px]  flex justify-center items-center'>
 
     <div className='grid grid-flow-col grid-rows-2 grid-col-2  '>
       {

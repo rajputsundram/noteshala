@@ -16,7 +16,7 @@ const Header=()=>{
 
     return(
     <>
-    <div className="sticky top-0 z-50  dark:bg-gray-900 bg-white ">
+    <div className="sticky top-0 z-50  dark:bg-gray-900 bg-white shadow-lg ">
          <div className="pt-4 pb-4  lg:hidden">
             
 <div className='text-center justify-center flex  items-center gap-8 font-bold text-4xl'>  <Link href={"/"} className="flex  justify-center items-center w-64">
