@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from 'react';
+import Image from 'next/image';
+import React, { useState,useEffect } from 'react';
 
-const testimonialsData = [
+const teachersData = [
   {
     name: 'Allison Holmes',
     title: 'Designer',
@@ -25,13 +26,44 @@ const testimonialsData = [
   },
 ];
 
-const Testimonials = () => {
+const Teachers = () => {
+
+    useEffect(() => {
+      // Set up the interval to call the function every 2 seconds
+      const intervalId = setInterval(() => {
+for(let i=0;i==2;i++)
+{
+  if(i==2)
+    {
+      i=0;
+    }
+ 
+  handleDotClick(i);
+  
+}
+
+
+
+        
+        
+        
+      }, 2000);
+  
+      // Clean up the interval if the component is unmounted
+      return () => clearInterval(intervalId);
+    }, []);
+
+  
   const [activeIndex, setActiveIndex] = useState(0); // Track active testimonial index
 
   // Function to handle dot click
+
   const handleDotClick = (index) => {
+
     setActiveIndex(index);
+
   };
+
 
   return (
     <div className="bg-white py-12 px-4 sm:px-6 lg:px-8">
@@ -45,18 +77,19 @@ const Testimonials = () => {
       <div className="mt-10 max-w-5xl mx-auto">
         <div className="flex flex-col items-center">
           {/* Dynamic Content */}
-          <img
+          <Image
+          width={100} height={100}
             className="w-16 h-16 rounded-full object-cover"
-            src={testimonialsData[activeIndex].img}
-            alt="Testimonial Avatar"
+            src={teachersData[activeIndex].img}
+            alt="Teacher"
           />
           <div className="mt-4 text-center">
             <h3 className="text-xl font-semibold text-gray-900">
-              {testimonialsData[activeIndex].name}
+              {teachersData[activeIndex].name}
             </h3>
-            <p className="text-gray-600">{testimonialsData[activeIndex].title}</p>
+            <p className="text-gray-600">{teachersData[activeIndex].title}</p>
             <p className="mt-4 text-gray-500 text-sm">
-              {testimonialsData[activeIndex].quote}
+              {teachersData[activeIndex].quote}
             </p>
           </div>
         </div>
@@ -64,7 +97,7 @@ const Testimonials = () => {
 
       {/* Dots for navigation */}
       <div className="flex justify-center mt-8">
-        {testimonialsData.map((_, index) => (
+        {teachersData.map((_, index) => (
           <span
             key={index}
             onClick={() => handleDotClick(index)}
@@ -78,4 +111,4 @@ const Testimonials = () => {
   );
 };
 
-export default Testimonials;
+export default Teachers;

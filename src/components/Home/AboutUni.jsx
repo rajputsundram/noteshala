@@ -1,11 +1,12 @@
 import React from 'react';
+import Link  from 'next/link';
 
-const AboutUniversity = () => {
+const AboutNoteshala = () => {
   return (
-    <div className="bg-[#2F4F73] p-10 text-white flex justify-center">
+    <div className="bg-[#2F4F73] p-10 mt-24 text-white flex justify-center">
       <div className="flex flex-col md:flex-row md:justify-between max-w-[1000px] w-full">
         <div className="md:w-1/3 md:pr-5">
-          <h2 className="text-2xl md:text-left mb-2">About Our University</h2>
+          <h2 className="text-2xl md:text-left mb-2">About Noteshala</h2>
           <div className="w-[75%] h-1 bg-[#69D17F] mb-5"></div> {/* underline */}
 
         </div>
@@ -21,13 +22,15 @@ const AboutUniversity = () => {
             adipisci dolorem enim ipsum cum molestias? Quod quae molestias modi fugit quisquam. Eligendi recusandae
             officiis debitis quas beatae aliquam?
           </p>
-          <a href="#" className="text-[#69D17F] font-bold mt-5 block text-left">
-            Read more
-          </a>
+          {/* <a href="#" className="text-[#69D17F] font-bold mt-5 block text-left">
+         
+          </a> */}
+
+          <Link href={"/"} className="text-[#69D17F] font-bold mt-5 block text-left hover:underline"> Read more </Link>
         </div>
       </div>
     </div>
   );
 };
 
-export default AboutUniversity;
+export default AboutNoteshala;
