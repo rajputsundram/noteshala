@@ -130,7 +130,7 @@ function Bcads() {
         ))}
       </div>
     </>
-  );bg-white
+  );
 }
 
 export default Bcads;

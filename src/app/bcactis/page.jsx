@@ -27,7 +27,7 @@ function BcaCtis() {
       year:"first",
       path: 'previousyearpaper',
       category: "First Year",
-      icons: <FaPaperPlane />,
+      icons: <FaPaperPlane/>,
       title: 'Previous Paper',
       descrip: ''
     },
@@ -37,7 +37,7 @@ function BcaCtis() {
       year:"first",
       path: 'syllabus',
       category: "First Year",
-      icons: <IoBookSharp />,
+      icons: <IoBookSharp/>,
       title: 'Syllabus',
       descrip: ''
     },
@@ -46,7 +46,7 @@ function BcaCtis() {
       resources:"notes",
       year:"first",
       path: 'tutorial',
-      icons: <FaJava />,
+      icons: <FaJava/>,
       title: 'Tutorials',
       descrip: ''
     }
@@ -130,7 +130,7 @@ function BcaCtis() {
         ))}
       </div>
     </>
-  );bg-white
+  );
 }
 
 export default BcaCtis;
