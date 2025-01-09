@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProviderWrapper attribute="class">
+        <ThemeProviderWrapper>
       
         <Header/>
      
