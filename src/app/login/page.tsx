@@ -3,18 +3,50 @@
 import React from 'react'
 import { useState } from 'react';
 import Link from "next/link";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import {useRouter} from 'next/navigation';
 
 function Login() {
+    const router=useRouter();
+    
     const [credentials,setCreadentials]=useState({email:"",password:""})
-
-    const handleSubmit=(e)=>{
-        e.preventDefault();
-
-    } 
     const handleChange=(e)=>{
         setCreadentials({...credentials,[e.target.name]:e.target.value})
 
     }
+    const handleSubmit= async(e)=>{
+      
+        e.preventDefault();
+        try {
+            const formData = new FormData();
+            formData.append('email', credentials.email);
+            formData.append('password', credentials.password);
+        
+
+            const response = await axios.post('/api/LogIn', formData);
+
+            if (response.data.success) {
+                toast.success(response.data.msg);
+                setCreadentials({
+                    email: '',
+                    password: ''
+                 
+                });
+                localStorage.setItem("token",response.data.authToken)
+                localStorage.setItem("userEmail",credentials.email);
+                router.push("/")
+             
+            } else {
+                toast.error(response.data.msg ||'Error occurred during login');
+            }
+        }catch (error) {
+            console.error('Signup error:', error);
+            toast.error('Something went wrong. Please try again.');
+        }
+
+    } 
+  
      return (
     <div style={{height:"75vh",backgroundImage:'',backgroundSize:"cover",}}  className='flex justify-center items-center'>
         <div className="container w-full max-w-md">

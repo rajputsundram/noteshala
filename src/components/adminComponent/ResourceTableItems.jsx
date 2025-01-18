@@ -1,0 +1,33 @@
+import React from 'react'
+import { MdDelete } from "react-icons/md";
+import Image from 'next/image'
+
+const ResourceTableItems = ({title,author,date, deleteResource,mongoId}) => {
+  const timestamp = Number(date);  // Ensure it's treated as a number
+  const ResourceDate = new Date(timestamp); 
+  const displayDate = isNaN(ResourceDate) ? 'Invalid Date' : ResourceDate.toLocaleString();
+  console.log("Received date:", date);
+
+
+  return (
+    <tr className='bg-white border-b '>
+        <th scope='row' className='items-center gap-3 hidden sm:flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap'>
+
+<p>{author?author:"No author"}</p>
+        </th>
+        <td className='px-6 py-4'>
+            {title?title:"no title"}
+        </td>
+        <td className='px-6 py-4'>
+
+        {displayDate}
+        </td>
+        <td onClick={()=>deleteResource(mongoId)} className='px-6 text-2xl text-red-700 py-4 cursor-pointer' >
+        <MdDelete/>
+        </td>
+
+    </tr>
+  )
+}
+
+export default ResourceTableItems

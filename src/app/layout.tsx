@@ -1,6 +1,8 @@
 import React from "react";
 import type { Metadata } from "next";
 import "./globals.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
@@ -21,10 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+      <ToastContainer theme="dark"/>
         <ThemeProviderWrapper>
-      
         <Header/>
-     
         {children}
         <Footer/>
         </ThemeProviderWrapper>

@@ -9,11 +9,20 @@ import { MdOutlineLightMode } from "react-icons/md";
 import { useTheme } from 'next-themes';
 import Image from "next/image";
 import { useState } from 'react';
+import { MdOutlineLogout } from "react-icons/md";
+import { useEffect } from "react";
 
 const Navbar = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
 
   const links = [
     { name: "Home", path: "/" },
@@ -26,6 +35,7 @@ const Navbar = () => {
   // const toggleDropdown = () => {
   //   setDropdownOpen(!dropdownOpen);
   // };
+  
 
   return (
     <div className="flex h-32 items-center justify-between" onMouseLeave={()=>{ setDropdownOpen(false)}}>
@@ -68,6 +78,35 @@ const Navbar = () => {
       </nav>
 
       {/* Login and Signup buttons */}
+
+      {isClient && localStorage.getItem("token")?
+        ( 
+          <>
+            <div className="mr-[100px] flex gap-4">
+           <div className="w-[90px] gap-1 border border-green-800 hover:bg-green-700 bg-green-500 p-1 flex text-white justify-center items-center h-[44px] rounded-[6px]">
+           <Link href={"/login"}
+           onClick={()=>{
+            localStorage.removeItem("token");
+            localStorage.removeItem("userEmail");
+           }}
+            className='className="text-[16px] flex justify-center items-center font-medium"'>
+        Logout <span className='mx-1 font-bold'><MdOutlineLogout/></span> 
+    
+        </Link>
+        </div>
+        <div>
+          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className='text-white bg-black rounded-full p-1 dark:text-black dark:bg-white flex items-center'>
+            <MdOutlineLightMode />
+            /
+            <MdOutlineDarkMode />
+          </button>
+        </div>
+      </div>
+          </>
+          )
+        :
+        <>
+
       <div className="mr-[100px] flex gap-4">
         <div className="w-[80px] gap-1 border border-green-800 hover:bg-green-700 bg-green-500 p-1 flex text-white justify-center items-center h-[42px] rounded-[6px]">
           <FaLock />
@@ -85,6 +124,9 @@ const Navbar = () => {
           </button>
         </div>
       </div>
+      
+      </>
+}
     </div>
   );
 }
