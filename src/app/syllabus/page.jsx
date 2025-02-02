@@ -5,7 +5,7 @@ import Link from 'next/link'
 import axios from 'axios'
 import { useSearchParams } from 'next/navigation'
 
-const Page = () => {
+const SyllabusPage= () => {
   const [cardData, setCardData] = useState([]);
   const searchParams = useSearchParams(); // Get URL parameters
 
@@ -132,4 +132,9 @@ const Page = () => {
   );
 };
 
+const Page = () => (
+  <Suspense fallback={<div className="text-white text-center">Loading...</div>}>
+    <SyllabusPage />
+  </Suspense>
+);
 export default Page;

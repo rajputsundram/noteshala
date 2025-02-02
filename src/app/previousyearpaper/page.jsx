@@ -5,7 +5,7 @@ import Link from 'next/link'
 import axios from 'axios'
 import { useSearchParams } from 'next/navigation'
 
-const Page = () => {
+const PreviousYearPaperPage = () => {
   const [cardData, setCardData] = useState([]);
   const searchParams = useSearchParams(); // Get URL parameters
 
@@ -131,5 +131,13 @@ const Page = () => {
     </div>
   );
 };
+
+const Page = () => (
+  <Suspense fallback={<div className="text-white text-center">Loading...</div>}>
+    <PreviousYearPaperPage />
+  </Suspense>
+);
+
+
 
 export default Page;
