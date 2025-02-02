@@ -1,11 +1,14 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import axios from 'axios'
 import { useSearchParams } from 'next/navigation'
 
-const SyllabusPage= () => {
+// Ensure dynamic rendering for this page
+export const dynamic = 'force-dynamic';
+
+const SyllabusPage = () => {
   const [cardData, setCardData] = useState([]);
   const searchParams = useSearchParams(); // Get URL parameters
 
@@ -132,9 +135,11 @@ const SyllabusPage= () => {
   );
 };
 
+// ✅ Wrap the component in Suspense (optional but recommended for a better UX)
 const Page = () => (
   <Suspense fallback={<div className="text-white text-center">Loading...</div>}>
     <SyllabusPage />
   </Suspense>
 );
+
 export default Page;
