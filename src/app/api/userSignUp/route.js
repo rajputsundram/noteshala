@@ -46,7 +46,7 @@ export async function POST(request) {
             department,
             password: securePass,
         });
-        console.log("User created successfully:", newUser);
+        // console.log("User created successfully:", newUser);
 
         // Generate JWT token
         const payload = {
@@ -58,12 +58,17 @@ export async function POST(request) {
 
         success = true;
 
+               
+ // Set the token in a cookie (with an expiration of 1 day)
+ Cookies.set("token", authToken, { expires: 1 });  // 1 day expiration
+
         // Return a successful response with the token
         return NextResponse.json({
             success: true,
             msg: "User registered successfully.",
             authToken,
         });
+
     } catch (error) {
         console.error("Error creating user:", error.message);
         return NextResponse.json({

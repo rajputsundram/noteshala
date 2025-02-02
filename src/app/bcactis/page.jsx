@@ -8,44 +8,43 @@ import { IoBookSharp } from "react-icons/io5";
 import { FaJava } from "react-icons/fa";
 import Link from 'next/link';
 
+
 function BcaCtis() {
+
+  
   const [year,setYear]=useState("first");
   const Cards = [
     {
-      department:"bca-ctis",
+      department:"bcactis",
       resources:"notes",
-      year:"first",
-      path: 'notes',
+      category: 'notes',
       icons: <GrNotes />,
       title: 'Notes',
       descrip: 'Lorem ipsum dolor sit amet.'
     },
     {
       
-      department:"bca-ctis",
+      department:"bcactis",
       resources:"notes",
-      year:"first",
-      path: 'previousyearpaper',
-      category: "First Year",
+      category: 'questionpaper',
       icons: <FaPaperPlane/>,
       title: 'Previous Paper',
       descrip: ''
     },
     {
-      department:"bca-ctis",
+      department:"bcactis",
       resources:"notes",
       year:"first",
-      path: 'syllabus',
-      category: "First Year",
+      category: 'syllabus',
       icons: <IoBookSharp/>,
       title: 'Syllabus',
       descrip: ''
     },
     {
-      department:"bca-ctis",
+      department:"bcactis",
       resources:"notes",
       year:"first",
-      path: 'tutorial',
+      category: 'tutorial',
       icons: <FaJava/>,
       title: 'Tutorials',
       descrip: ''
@@ -114,7 +113,17 @@ function BcaCtis() {
       {/* Card Section */}
       <div className="flex flex-wrap justify-center items-center mt-10 px-4">
         {Cards.map((items, index) => (
-          <Link href={`./${items.path}/${items.department}/${year}`}
+          <Link 
+          href={{
+            pathname: "/syllabus", // Use a common route
+            query: {
+              category: items.category,
+              department: items.department,
+              year:year,
+              
+          
+            },
+          }}
             key={index}
             className="h-[160px] w-full max-w-[300px] text-white flex justify-center items-center text-center flex-col shadow-lg hover:shadow-green-400 rounded-lg bg-green-700 m-2"
           >

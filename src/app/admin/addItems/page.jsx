@@ -78,7 +78,7 @@ const onSubmitHandler=async(e)=>{
   }
 }
   return (
-    <div>
+    <div >
       <form onSubmit={onSubmitHandler} className='pt-5 px-5 sm:pt-12 sm:pl-16'>
       <p className='text-xl'>Upload thumbnail</p>
 <label htmlFor="image">
@@ -170,7 +170,7 @@ const onSubmitHandler=async(e)=>{
           <option value="time-table">Time-table</option>
         </select>
         <br />
-        <button type='submit' className='mt-8 w-40 h-12 bg-black text-white'>ADD</button>
+        <button type='submit' className='mt-8 w-40 h-12 bg-green-500 hover:bg-green-600 shadow-xl border-spacing-1 text-white'>ADD</button>
         <br /> <br />
       </form>
     </div>

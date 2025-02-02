@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 const { NextResponse } = require("next/server");
 
-export async function POST(request, res) {
+export async function POST(request) {
     const jwtSecret = process.env.JWT_SECRET; // Ensure this is defined in your environment variables
 
     try {
@@ -38,16 +38,29 @@ export async function POST(request, res) {
         const data = {
             user: {
                 id: user["_id"],
+                isAdmin: user.isAdmin, // Include admin status in the token
             },
         };
         const authToken = jwt.sign(data, jwtSecret, { expiresIn: "1h" }); // Token expires in 1 hour
+        console.log(user.isAdmin);
 
-        // Return a successful response with the token
-        return NextResponse.json({
+        // Set token in HttpOnly cookie
+        const response = NextResponse.json({
             success: true,
-            msg: "Login successfully.",
-            authToken,
+            msg: "Login successful.",
+            redirect: user.isAdmin ? "/admin" : "/",
         });
+
+        // Set the token in the cookie
+        response.cookies.set("token", authToken, {
+            httpOnly: true, // Prevent JavaScript access to the cookie
+            secure: process.env.NODE_ENV === "production", // Secure flag for production (ensures cookies are only sent over HTTPS)
+            maxAge: 3600, // Token expiration time in seconds (1 hour)
+            path: "/", // Make the cookie available to the entire site
+            sameSite: "Strict", // Strict same-site policy to prevent CSRF attacks
+        });
+
+        return response;
     } catch (error) {
         console.error("Error during login:", error.message);
         return NextResponse.json({

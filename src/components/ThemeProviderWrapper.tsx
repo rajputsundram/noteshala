@@ -1,5 +1,5 @@
 
-"use client"; // Ensure this directive is present
+"use client"; 
 
 import { ThemeProvider } from "next-themes";
 import { ReactNode } from "react";

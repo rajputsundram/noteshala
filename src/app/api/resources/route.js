@@ -13,19 +13,42 @@ LoadDB();
 
  
 // API  Endpoint get all resources
-export async function GET(request){
-
-const blogId=request.nextUrl.searchParams.get("id");
-if(blogId){
-    const blog=await ResourcesModel.findById(blogId);
-    return NextResponse.json(blog)
-}
-else {
-    const blogs=await ResourcesModel.find({});
-    return NextResponse.json({blogs})
-}
 
 
+export async function GET(request) {
+  try {
+    // Extract query parameters
+    const url = new URL(request.url);
+    const year = url.searchParams.get("year");
+    const department = url.searchParams.get("department");
+    const category = url.searchParams.get("category");
+
+
+    // Prepare query object based on received params
+    let query = {};
+    if (year) query.year = year;
+    if (department) query.department = department;
+    if (category) query.category = category;
+
+  
+
+    // Fetch resources from the database based on the query
+    const resources = await ResourcesModel.find(query);
+
+    // Debugging log: Check the number of resources found
+    console.log("Found resources:", resources.length);
+
+    if (resources.length === 0) {
+      return NextResponse.json({ message: "No resources found for the given parameters" }, { status: 404 });
+    }
+
+    // Return resources as a response
+    return NextResponse.json({ resources });
+
+  } catch (error) {
+    console.error("Error fetching resources:", error);
+    return NextResponse.json({ error: "Failed to fetch resources" }, { status: 500 });
+  }
 }
 
 
