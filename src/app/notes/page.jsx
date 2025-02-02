@@ -1,11 +1,12 @@
 'use client'
-import React, { useState, useEffect } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import axios from 'axios'
-import { useSearchParams } from 'next/navigation'
 
-const Page = () => {
+import React, { useState, useEffect, Suspense } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import axios from 'axios';
+import { useSearchParams } from 'next/navigation';
+
+const NotesPage = () => {
   const [cardData, setCardData] = useState([]);
   const searchParams = useSearchParams(); // Get URL parameters
 
@@ -131,5 +132,12 @@ const Page = () => {
     </div>
   );
 };
+
+// ✅ Wrapping the Page component in Suspense to fix useSearchParams() issue
+const Page = () => (
+  <Suspense fallback={<div className="text-white text-center">Loading...</div>}>
+    <NotesPage />
+  </Suspense>
+);
 
 export default Page;
