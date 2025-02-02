@@ -3,6 +3,7 @@ import { ConnectDB } from "../../../lib/config/db";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 const { NextResponse } = require("next/server");
+import { cookies } from 'next/headers';
 
 export async function POST(request) {
     const jwtSecret = process.env.JWT_SECRET; // Ensure this is defined in your environment variables
