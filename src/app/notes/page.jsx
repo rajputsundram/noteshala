@@ -6,6 +6,9 @@ import Link from 'next/link';
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation';
 
+// Ensure dynamic rendering
+export const dynamic = 'force-dynamic';
+
 const NotesPage = () => {
   const [cardData, setCardData] = useState([]);
   const searchParams = useSearchParams(); // Get URL parameters
@@ -133,7 +136,7 @@ const NotesPage = () => {
   );
 };
 
-// ✅ Wrapping the Page component in Suspense to fix useSearchParams() issue
+// ✅ Wrap the component in Suspense (optional but recommended for a better UX)
 const Page = () => (
   <Suspense fallback={<div className="text-white text-center">Loading...</div>}>
     <NotesPage />
