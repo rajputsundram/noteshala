@@ -5,25 +5,18 @@ const { Schema } = mongoose;
 const TopicSchema = new Schema({
   heading: { type: String, required: true },
   description: { type: String, required: true },
-  image: { type: String }  // URL for the topic image
+
 });
 
 // Define the main Tutorial schema
 const TutorialSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
-  department: {
+  category: {
     type: String,
     required: true,
 },
-semester: {
-    type: String,
-    required: true,
-},
-year: {
-    type: String,
-    required: true,
-},
+image: { type: String,required: true },
 email: {
     type: String,
     required: true,
@@ -35,7 +28,7 @@ email: {
 });
 
 // Use an existing model if available, otherwise create a new model
-const TutorialModel = mongoose.models.Tutorial || mongoose.model('Tutorial', TutorialSchema);
+const BlogsModel = mongoose.models.Blogs || mongoose.model('Blogs', TutorialSchema);
 
 // Export the model
-module.exports = TutorialModel;
+module.exports = BlogsModel;

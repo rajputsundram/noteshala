@@ -6,39 +6,39 @@ import axios from "axios";
 export default function AdminDashboard() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         const checkAdmin = async () => {
             try {
-                const token = localStorage.getItem("token");
-                if (!token) {
-                    router.push("/login");
+                // Call the API to verify authentication and admin status
+                const response = await axios.get("/api/user");
+
+                console.log("👤 User data:", response.data);
+
+                if (!response.data.success || !response.data.isAdmin) {
+                    console.log("⛔ Not an admin. Redirecting...");
+                    router.replace("/home"); // Redirect non-admin users
                     return;
                 }
 
-                const response = await axios.get("/api/user", {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-
-                if (!response.data.isAdmin) {
-                    router.push("/home"); // Redirect non-admin users
-                } else {
-                    setIsLoading(false); // Allow access
-                }
+                setIsAdmin(true);
+                setIsLoading(false);
             } catch (error) {
-                router.push("/login");
+                console.error("🚨 Admin check failed:", error.response?.data || error.message);
+                router.replace("/login"); // Redirect to login on failure
             }
         };
 
         checkAdmin();
-    }, [router]);
+    }, []);
 
     if (isLoading) return <p>Loading...</p>;
 
     return (
         <div>
             <h1>Admin Dashboard</h1>
-            <p>Welcome, Admin!</p>
+            {isAdmin ? <p>Welcome, Admin!</p> : <p>Redirecting...</p>}
         </div>
     );
 }

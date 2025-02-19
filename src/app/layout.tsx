@@ -1,4 +1,5 @@
 import React from "react";
+import { AuthProvider } from '../../context/Authcontext'
 import type { Metadata } from "next";
 import "./globals.css";
 import { ToastContainer } from 'react-toastify';
@@ -23,12 +24,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+      <AuthProvider>
       <ToastContainer theme="dark"/>
         <ThemeProviderWrapper>
         <Header/>
         {children}
         <Footer/>
         </ThemeProviderWrapper>
+        </AuthProvider>
       </body>
     </html>
   );

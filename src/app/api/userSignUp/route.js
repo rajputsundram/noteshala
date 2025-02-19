@@ -6,14 +6,6 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 export async function POST(request) {
-    let success = false;
-    const jwtSecret = process.env.JWT_SECRET;
-
-    if (!jwtSecret) {
-        console.error("JWT Secret is not defined in the environment variables.");
-        return NextResponse.json({ success: false, msg: "Server configuration error." });
-    }
-
     try {
         await ConnectDB();
 
@@ -32,46 +24,31 @@ export async function POST(request) {
             return NextResponse.json({ success: false, msg: "Email is already registered." });
         }
 
-        const salt = await bcrypt.genSalt(10);
-        const securePass = await bcrypt.hash(password, salt);
-
+        const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await Users.create({
             name,
             email,
             department,
-            password: securePass,
+            password: hashedPassword,
         });
 
-        const payload = {
-            user: {
-                id: newUser._id,
-            },
-        };
-        const authToken = jwt.sign(payload, jwtSecret, { expiresIn: "1h" });
+        // Generate JWT
+        const payload = { user: { id: newUser._id } };
+        const authToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-        success = true;
-
-        // Set the token in cookies
-        const cookieStore = cookies();
-        cookieStore.set("token", authToken, {
+        // ✅ Set token in cookies
+        const response = NextResponse.json({ success: true, msg: "User registered successfully." });
+        response.cookies.set("token", authToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            maxAge: 60 * 60 * 24, // 1 day
+            maxAge: 3600,
             path: "/",
+            sameSite: "Strict",
         });
 
-        return NextResponse.json({
-            success: true,
-            msg: "User registered successfully.",
-            authToken,
-        });
+        return response;
 
     } catch (error) {
-        console.error("Error creating user:", error.message);
-        return NextResponse.json({
-            success: false,
-            msg: "An error occurred during registration.",
-            error: error.message,
-        });
+        return NextResponse.json({ success: false, msg: "Signup failed", error: error.message });
     }
 }
