@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { MdDelete } from "react-icons/md";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa"; // Import fold/unfold icons
 import { format } from "date-fns";
 import Image from "next/image";
 import axios from "axios";
@@ -22,6 +23,7 @@ const TutorialsItems = ({
   const [image, setImage] = useState(imageUrl || "");
   const [showForm, setShowForm] = useState(false);
   const [localTopics, setLocalTopics] = useState(topics);
+  const [showTopics, setShowTopics] = useState(false); // State for foldable/unfoldable topics
   const [formData, setFormData] = useState({
     heading: title || "",
     description: description || "",
@@ -31,7 +33,9 @@ const TutorialsItems = ({
   // Format dates if valid
   const formatDate = (date) => {
     const dateObj = new Date(date);
-    return isNaN(dateObj) ? "Invalid Date" : format(dateObj, "yyyy-MM-dd HH:mm:ss");
+    return isNaN(dateObj)
+      ? "Invalid Date"
+      : format(dateObj, "yyyy-MM-dd HH:mm:ss");
   };
 
   const formattedPublishedDate = formatDate(publishedDate);
@@ -66,22 +70,39 @@ const TutorialsItems = ({
         formDataToSend.append("image", formData.image);
       }
 
-      const response = await axios.put(`/api/addtutorials?id=${mongoId}`, formDataToSend, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.put(
+        `/api/addtutorials?id=${mongoId}`,
+        formDataToSend,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       console.log("API Response:", response.data);
 
       if (response.data.success) {
         toast.success("Tutorial updated successfully!");
 
-        if (response.data.updatedTutorial && response.data.updatedTutorial.topics) {
+        if (
+          response.data.updatedTutorial &&
+          response.data.updatedTutorial.topics
+        ) {
           setLocalTopics(response.data.updatedTutorial.topics);
         }
 
+        // Reset form data after successful submission
+        setFormData({
+          heading: "",
+          description: "",
+          image: "",
+        });
+
+        setImage(""); // Reset the image preview
         setShowForm(false);
       } else {
-        throw new Error(response.data.error || "Failed to update the tutorial.");
+        throw new Error(
+          response.data.error || "Failed to update the tutorial."
+        );
       }
     } catch (error) {
       console.error("Failed to update tutorial:", error);
@@ -90,7 +111,9 @@ const TutorialsItems = ({
   };
 
   const deleteTopic = async (topicId) => {
-    const isConfirmed = window.confirm("Are you sure you want to delete this topic?");
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this topic?"
+    );
     if (!isConfirmed) return;
 
     try {
@@ -100,7 +123,9 @@ const TutorialsItems = ({
 
       if (response.data.success) {
         toast.success(response.data.msg);
-        setLocalTopics((prevTopics) => prevTopics.filter((topic) => topic._id !== topicId));
+        setLocalTopics((prevTopics) =>
+          prevTopics.filter((topic) => topic._id !== topicId)
+        );
       } else {
         throw new Error("Failed to delete topic.");
       }
@@ -109,12 +134,41 @@ const TutorialsItems = ({
       toast.error("Failed to delete topic.");
     }
   };
+  
+
+
+  const deleteTutorial = async (tutorialId) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this tutorial?"
+    );
+    if (!isConfirmed) return;
+  
+    try {
+      const response = await axios.delete(`/api/addtutorials`, {
+        params: { tutorialId },
+      });
+  
+      if (response.data.success) {
+        toast.success(response.data.msg);
+        // Additional code to remove the tutorial from UI if needed.
+      } else {
+        throw new Error("Failed to delete tutorial.");
+      }
+    } catch (error) {
+      console.error("Failed to delete tutorial:", error);
+      toast.error("Failed to delete tutorial.");
+    }
+  };
+  
+
 
   return (
     <>
       <tr className="border-b dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-200 text-center">
         <th className="hidden sm:table-cell px-6 py-4 text-lg font-semibold uppercase tracking-wide text-gray-900 dark:text-gray-200">
-          <p className="text-gray-500 dark:text-gray-400">{author || "No Author"}</p>
+          <p className="text-gray-500 dark:text-gray-400">
+            {author || "No Author"}
+          </p>
         </th>
 
         <td className="px-6 py-4 text-gray-900 dark:text-gray-200 font-bold text-lg uppercase tracking-wide">
@@ -129,7 +183,7 @@ const TutorialsItems = ({
         </td>
 
         <td
-          onClick={() => deleteResource(mongoId)}
+          onClick={() => deleteTutorial(mongoId)}
           className="px-6 py-4 text-2xl text-red-600 dark:text-red-400 cursor-pointer transition-all duration-200 hover:scale-110"
         >
           <MdDelete />
@@ -149,35 +203,55 @@ const TutorialsItems = ({
       {localTopics.length > 0 ? (
         <tr>
           <td colSpan="5">
-            <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-md w-full max-w-4xl mx-auto">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Topics:</h3>
-              <ul className="list-disc pl-5 space-y-1">
-                {localTopics.map((topic) => (
-                  <li
-                    key={topic._id}
-                    className="flex justify-between items-center px-6 py-2 border-b border-gray-300 dark:border-gray-700 shadow-md rounded-lg bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded-full">
-                        Topic
-                      </span>
-                      <span className="text-lg font-medium">{topic.heading}</span>
-                    </div>
-                    <button
-                      onClick={() => deleteTopic(topic._id)}
-                      className="p-2 rounded-md transition-all duration-200 hover:bg-red-100 dark:hover:bg-red-900"
+            <div className="  p-4 bg-gray-100 dark:bg-gray-800 rounded-md w-full  mx-auto">
+              {/* Topics Heading with Fold/Unfold Button */}
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  Topics:
+                </h3>
+                <button
+                  onClick={() => setShowTopics(!showTopics)}
+                  className="p-2 rounded-md transition-all duration-200 hover:bg-gray-200 dark:hover:bg-gray-800"
+                >
+                  {showTopics ? <FaChevronUp /> : <FaChevronDown />}
+                </button>
+              </div>
+
+              {/* Topics List (Only shown when showTopics is true) */}
+              {showTopics && (
+                <ul className=" w-full list-disc pl-5 space-y-1">
+                  {localTopics.map((topic) => (
+                    <li
+                      key={topic._id}
+                      className=" w-full flex  items-center px-6 py-2 border-b border-gray-300 dark:border-gray-700 shadow-md rounded-lg bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300"
                     >
-                      <MdDelete className="text-red-500 text-xl" />
-                    </button>
-                  </li>
-                ))}
-              </ul>
+                      <div className=" w-full flex items-center gap-3">
+                        <span className="bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded-full">
+                          Topic
+                        </span>
+                        <span className="text-lg font-medium">
+                          {topic.heading}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => deleteTopic(topic._id)}
+                        className="p-2 rounded-md transition-all duration-200 hover:bg-red-100 dark:hover:bg-red-900"
+                      >
+                        <MdDelete className="text-red-500 text-xl" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </td>
         </tr>
       ) : (
         <tr>
-          <td colSpan="5" className="text-center text-gray-500 py-3">
+          <td
+            colSpan="5"
+            className="text-center text-gray-500 py-3"
+          >
             No topics available.
           </td>
         </tr>
@@ -186,9 +260,14 @@ const TutorialsItems = ({
       {showForm && (
         <tr>
           <td colSpan="5">
-            <form onSubmit={handleSubmit} className="p-4 bg-gray-100 dark:bg-gray-800 rounded-md">
+            <form
+              onSubmit={handleSubmit}
+              className="p-4 bg-gray-100 dark:bg-gray-800 rounded-md"
+            >
               <div className="mb-4">
-                <label className="block text-sm font-medium dark:text-gray-300">Heading:</label>
+                <label className="block text-sm font-medium dark:text-gray-300">
+                  Heading:
+                </label>
                 <input
                   type="text"
                   name="heading"
@@ -199,7 +278,9 @@ const TutorialsItems = ({
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium dark:text-gray-300">Description:</label>
+                <label className="block text-sm font-medium dark:text-gray-300">
+                  Description:
+                </label>
                 <textarea
                   name="description"
                   value={formData.description}
@@ -209,17 +290,37 @@ const TutorialsItems = ({
                 ></textarea>
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium dark:text-gray-300">Image: (optional)</label>
-                <label htmlFor="image">
-                  <Image className="mt-4" src={image || uploadAreaimg} width={140} height={70} alt="Thumbnail Preview" />
+                <label className="block text-sm font-medium dark:text-gray-300">
+                  Image: (optional)
                 </label>
-                <input type="file" id="image" hidden onChange={handleImageChange} />
+                <label htmlFor="image">
+                  <Image
+                    className="mt-4"
+                    src={image || uploadAreaimg}
+                    width={140}
+                    height={70}
+                    alt="Thumbnail Preview"
+                  />
+                </label>
+                <input
+                  type="file"
+                  id="image"
+                  hidden
+                  onChange={handleImageChange}
+                />
               </div>
               <div className="flex gap-3">
-                <button type="submit" className="bg-green-500 dark:bg-green-600 text-white px-6 py-3 rounded-md transition-all duration-200">
+                <button
+                  type="submit"
+                  className="bg-green-500 dark:bg-green-600 text-white px-6 py-3 rounded-md transition-all duration-200"
+                >
                   Save
                 </button>
-                <button type="button" onClick={() => setShowForm(false)} className="bg-gray-400 dark:bg-gray-600 text-white px-6 py-3 rounded-md transition-all duration-200">
+                <button
+                  type="button"
+                  onClick={() => setShowForm(false)}
+                  className="bg-gray-400 dark:bg-gray-600 text-white px-6 py-3 rounded-md transition-all duration-200"
+                >
                   Cancel
                 </button>
               </div>

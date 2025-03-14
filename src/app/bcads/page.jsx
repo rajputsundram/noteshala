@@ -8,45 +8,44 @@ import { IoBookSharp } from "react-icons/io5";
 import { FaJava } from "react-icons/fa";
 import Link from 'next/link';
 
-function Bcads() {
-  const [Year,setYear]=useState("first");
+
+function Page() {
+
+  
+  const [year,setYear]=useState("first");
   const Cards = [
     {
-      department:"bca-ds",
+      department:"bcads",
       resources:"notes",
-      year:"first",
-      path: 'notes',
+      category: 'notes',
       icons: <GrNotes />,
       title: 'Notes',
       descrip: 'Lorem ipsum dolor sit amet.'
     },
     {
       
-      department:"bca-ds",
+      department:"bcads",
       resources:"notes",
-      year:"first",
-      path: 'previousyearpaper',
-      category: "First Year",
-      icons: <FaPaperPlane />,
+      category: 'previousyearpaper',
+      icons: <FaPaperPlane/>,
       title: 'Previous Paper',
       descrip: ''
     },
     {
-      department:"bca-ds",
+      department:"bcads",
       resources:"notes",
       year:"first",
-      path: 'syllabus',
-      category: "First Year",
-      icons: <IoBookSharp />,
+      category: 'syllabus',
+      icons: <IoBookSharp/>,
       title: 'Syllabus',
       descrip: ''
     },
     {
-      department:"bca-ds",
+      department:"bcads",
       resources:"notes",
       year:"first",
-      path: 'tutorial',
-      icons: <FaJava />,
+      category: 'tutorial',
+      icons: <FaJava/>,
       title: 'Tutorials',
       descrip: ''
     }
@@ -56,7 +55,7 @@ function Bcads() {
    
     <>
       {/* Main Container */}
-      <div className="flex flex-col lg:flex-row mt-20 px-4 lg:px-0">
+      <div className="flex flex-col  lg:flex-row mt-20 px-4 lg:px-0">
         {/* Text Section */}
         <div className="lg:w-1/2 flex items-center justify-center lg:justify-end">
           <div className="h-[300px] w-full lg:w-[70%] flex items-center">
@@ -95,15 +94,15 @@ function Bcads() {
          
             <button
               
-              onClick={()=>setYear('first')} className={Year==="first"?" bg-green-600 text-white h-[40px] w-[110px] rounded-full text-lg font-medium  shadow-lg ":'hover:shadow-green-600 h-[40px] w-[110px] rounded-full hover:bg-green-600 hover:text-white text-black bg-white'}>First year
+              onClick={()=>setYear('first')} className={year==="first"?" bg-green-600 text-white h-[40px] w-[110px] rounded-full text-lg font-medium  shadow-lg ":'hover:shadow-green-600 h-[40px] w-[110px] rounded-full hover:bg-green-600 hover:text-white text-black bg-white'}>First year
             </button>
             <button
               
-              onClick={()=>setYear('second')} className={Year==="second"?" bg-green-600 text-white h-[40px] w-[110px] rounded-full text-lg font-medium  shadow-lg ":'hover:shadow-green-600 h-[40px] w-[110px] rounded-full hover:bg-green-600 hover:text-white text-black bg-white '}>Second year
+              onClick={()=>setYear('second')} className={year==="second"?" bg-green-600 text-white h-[40px] w-[110px] rounded-full text-lg font-medium  shadow-lg ":'hover:shadow-green-600 h-[40px] w-[110px] rounded-full hover:bg-green-600 hover:text-white text-black bg-white '}>Second year
             </button>
             <button
               
-              onClick={()=>setYear('third')} className={Year==="third"?" bg-green-600 text-white h-[40px] w-[110px] rounded-full text-lg font-medium  shadow-lg ":'hover:shadow-green-600 h-[40px] w-[110px] rounded-full hover:bg-green-600 hover:text-white text-black bg-white '}>Third year
+              onClick={()=>setYear('third')} className={year==="third"?" bg-green-600 text-white h-[40px] w-[110px] rounded-full text-lg font-medium  shadow-lg ":'hover:shadow-green-600 h-[40px] w-[110px] rounded-full hover:bg-green-600 hover:text-white text-black bg-white '}>Third year
             </button>
            
      
@@ -112,9 +111,19 @@ function Bcads() {
       </div>
 
       {/* Card Section */}
-      <div className="flex flex-wrap justify-center items-center mt-10 px-4">
+      <div className="flex flex-wrap justify-center mb-12 items-center mt-10 px-4">
         {Cards.map((items, index) => (
-          <Link href={`./${items.path}/${items.department}/${items.year}`}
+          <Link 
+          href={{
+            pathname: `/${items.category}`, // Use a common route
+            query: {
+              category: items.category,
+              department: items.department,
+              year:year,
+              
+          
+            },
+          }}
             key={index}
             className="h-[160px] w-full max-w-[300px] text-white flex justify-center items-center text-center flex-col shadow-lg hover:shadow-green-400 rounded-lg bg-green-700 m-2"
           >
@@ -133,4 +142,4 @@ function Bcads() {
   );
 }
 
-export default Bcads;
+export default Page;

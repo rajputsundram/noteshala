@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { useAuth } from "../../../context/Authcontext"; // ✅ Import Auth Context
-
+import { signIn, useSession } from "next-auth/react";
 function Login() {
     const router = useRouter();
     const { checkAuth } = useAuth(); // ✅ Get checkAuth function
@@ -81,11 +81,15 @@ function Login() {
                         <button type="submit" className="border font-bold dark:border-gray-400 border-gray-900 rounded mr-2 p-2 hover:bg-green-600 hover:text-white">
                             Log in
                         </button>
+
                         <Link href="/signup" style={{ all: "unset" }}>
                             <button type="button" className="border font-bold dark:border-gray-400 border-gray-900 rounded mr-2 p-2 hover:bg-green-600 hover:text-white">
                                 New User?
                             </button>
                         </Link>
+                        <button onClick={()=>signIn('google')} className="border font-bold dark:border-gray-400 border-gray-900 rounded mr-2 p-2 hover:bg-green-600 hover:text-white">
+                            Log in With Google
+                        </button>
                     </div>
                 </form>
             </div>

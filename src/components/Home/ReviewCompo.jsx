@@ -62,19 +62,31 @@ const ReviewCompo = () => {
 </div>
             <Slider {...settings}>
                 {reviewData.map((items, index) => (
-                    <div key={index} className='px-4'>
+                    <div key={index} className='px-4 my-12'>
                         <div className='flex justify-center lg:justify-start gap-1 mb-2'>
                             {star.map((item, starIndex) => (
                                 <p key={starIndex} className='text-blue-400 text-xl'>{item}</p>
                             ))}
                         </div>
-                        <p className="my-4 font-medium text-lg lg:text-2xl text-center lg:text-left">{items.review}</p>
+                        <p className="my-4 font-medium text-lg lg:text-xl text-center lg:text-left">{items.review}</p>
                         <div className='flex justify-center lg:justify-start items-center text-center gap-4 lg:gap-6'>
-                            <div className='relative h-20 w-20'>
-                                <Image src={items.userImgs} layout='fill' className='rounded-full object-cover' alt={items.userName} />
-                            </div>
-                            <span className='font-medium text-lg lg:text-xl'>{items.name}</span>
-                        </div>
+    <div className='relative h-20 w-20 flex items-center justify-center bg-green-500 rounded-full'>
+        {items.userImgs ? (
+            <Image 
+                src={items.userImgs} 
+                layout='fill' 
+                className='rounded-full object-cover' 
+                alt={items.userName} 
+            />
+        ) : (
+            <span className='text-xl  font-semibold text-white'>
+                {items.name.charAt(0).toUpperCase()}
+            </span>
+        )}
+    </div>
+    <span className='font-medium text-lg lg:text-xl'>{items.name}</span>
+</div>
+
                     </div>
                 ))}
             </Slider>

@@ -9,7 +9,7 @@ import { FaJava } from "react-icons/fa";
 import Link from 'next/link';
 
 
-function BcaCtis() {
+function Page() {
 
   
   const [year,setYear]=useState("first");
@@ -26,7 +26,7 @@ function BcaCtis() {
       
       department:"bcactis",
       resources:"notes",
-      category: 'questionpaper',
+      category: 'previousyearpaper',
       icons: <FaPaperPlane/>,
       title: 'Previous Paper',
       descrip: ''
@@ -55,7 +55,7 @@ function BcaCtis() {
    
     <>
       {/* Main Container */}
-      <div className="flex flex-col lg:flex-row mt-20 px-4 lg:px-0">
+      <div className="flex flex-col  lg:flex-row mt-20 px-4 lg:px-0">
         {/* Text Section */}
         <div className="lg:w-1/2 flex items-center justify-center lg:justify-end">
           <div className="h-[300px] w-full lg:w-[70%] flex items-center">
@@ -111,11 +111,11 @@ function BcaCtis() {
       </div>
 
       {/* Card Section */}
-      <div className="flex flex-wrap justify-center items-center mt-10 px-4">
+      <div className="flex flex-wrap justify-center mb-12 items-center mt-10 px-4">
         {Cards.map((items, index) => (
           <Link 
           href={{
-            pathname: "/syllabus", // Use a common route
+            pathname: `/${items.category}`, // Use a common route
             query: {
               category: items.category,
               department: items.department,
@@ -142,4 +142,4 @@ function BcaCtis() {
   );
 }
 
-export default BcaCtis;
+export default Page;

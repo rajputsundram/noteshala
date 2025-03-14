@@ -61,7 +61,7 @@ const PreviousYearPaperPage = () => {
             >
               <div className="h-48">
                 <Image
-                  src={'/images/dsa.png'}
+                  src={item.image}
                   width={200}
                   height={150}
                   alt="Card Image"
@@ -75,7 +75,7 @@ const PreviousYearPaperPage = () => {
                 </p>
                 <div className="mt-auto">
                   <Link
-                    href={item.link || '#'}
+                    href={item.pdf || '#'}
                     className="inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition w-full text-center"
                   >
                     Open Now

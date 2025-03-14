@@ -115,33 +115,65 @@ export async function PUT(request) {
             return NextResponse.json({ error: "Blog ID is required" }, { status: 400 });
         }
 
-        // Read raw body and validate JSON format
-        const rawBody = await request.text();
-        console.log("Raw Body:", rawBody);
+        let newTopic = {};
 
-        if (!rawBody) {
-            return NextResponse.json({ error: "Request body is missing" }, { status: 400 });
+        // Check if request is multipart/form-data
+        if (request.headers.get("content-type")?.includes("multipart/form-data")) {
+            const formData = await request.formData();
+            newTopic.heading = formData.get("heading");
+            newTopic.description = formData.get("description");
+
+            const imageFile = formData.get("image");
+            if (imageFile && imageFile.name) {
+                // Create uploads folder if it doesn't exist
+                const uploadDir = path.join(process.cwd(), "public/uploads");
+                if (!fs.existsSync(uploadDir)) {
+                    fs.mkdirSync(uploadDir, { recursive: true });
+                }
+                // Create a unique filename and store file
+                const imagePath = `${Date.now()}-${imageFile.name}`;
+                const filePath = path.join(uploadDir, imagePath);
+                const buffer = Buffer.from(await imageFile.arrayBuffer());
+                fs.writeFileSync(filePath, buffer);
+                // Save correct URL for frontend
+                newTopic.image = `/uploads/${imagePath}`;
+            }
+        } else {
+            // Handle JSON data
+            const rawBody = await request.text();
+
+            if (!rawBody) {
+                return NextResponse.json({ error: "Request body is missing" }, { status: 400 });
+            }
+
+            let body;
+            try {
+                body = JSON.parse(rawBody);
+            } catch (error) {
+                console.error("Invalid JSON format:", rawBody);
+                return NextResponse.json({ error: "Invalid JSON format" }, { status: 400 });
+            }
+
+            newTopic.heading = body.heading;
+            newTopic.description = body.description;
+            if (body.image) {
+                newTopic.image = body.image;
+            }
         }
 
-        let body;
-        try {
-            body = JSON.parse(rawBody);
-        } catch (error) {
-            console.error("Invalid JSON format:", rawBody);
-            return NextResponse.json({ error: "Invalid JSON format" }, { status: 400 });
-        }
+        // Log received data for debugging
+        console.log("Extracted New Topic:", newTopic);
 
-        // Validate required fields
-        if (!body.heading || !body.description) {
+        if (!newTopic.heading || !newTopic.description) {
             return NextResponse.json({ error: "Heading and Description are required" }, { status: 400 });
         }
 
-        let newTopic = {
-            heading: body.heading,
-            description: body.description,
-        };
+        // Remove keys with empty values (e.g., image if not provided)
+        Object.keys(newTopic).forEach(key => {
+            if (!newTopic[key]) delete newTopic[key];
+        });
 
-        // Update document in MongoDB
+        // Update Blog Document: Push new topic and update the updatedDate field
         const updatedBlog = await BlogsModel.findByIdAndUpdate(
             id,
             { $push: { topics: newTopic }, $set: { updatedDate: new Date() } },
@@ -153,12 +185,13 @@ export async function PUT(request) {
         }
 
         return NextResponse.json({ success: true, msg: "Topic added successfully!", blog: updatedBlog });
-
     } catch (error) {
         console.error("Error in PUT API:", error);
         return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
     }
 }
+
+
 
 export async function DELETE(request) {
     try {

@@ -6,9 +6,9 @@ import Link from 'next/link';
 
 const Highlights = () => {
   const Highlts = [
-    { icons: <AiOutlineNotification />, name: "Notice", descriptions: "Important updates and announcements for students to stay informed and engaged.", path: "" }, 
-    { icons: <FaBlog />, name: "Blogs", path: "", descriptions: "Engaging articles and insights to enhance learning, share knowledge, and inspire students." },
-     { icons: <GrWorkshop />, name: "Clubs & Workshop", path: "", descriptions: "Opportunities for hands-on learning, skill development, and collaboration through clubs and workshops" }]
+    { icons: <AiOutlineNotification />, name: "Notice",path: "/notice", descriptions: "Important updates and announcements for students to stay informed and engaged."  }, 
+    { icons: <FaBlog />, name: "Blogs", path: "/Blogs", descriptions: "Engaging articles and insights to enhance learning, share knowledge, and inspire students." },
+     { icons: <GrWorkshop />, name: "Clubs & Workshop", path: "/clubs&workshop", descriptions: "Opportunities for hands-on learning, skill development, and collaboration through clubs and workshops" }]
   return (
 
     <>

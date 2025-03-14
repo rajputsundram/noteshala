@@ -169,7 +169,7 @@ const response = await axios.post('/api/resources', formData, {
         <p className='text-xl mt-4'>Resources category</p>
         <select  name="category" onChange={OnChangeHandller} value={data.category} className='w-40 mt-4 px-4 py-3 border text-gray-500'>
           <option value="notes">Notes</option>
-          <option value="questionpaper">Question-paper</option>
+          <option value="previousyearpaper">Question-paper</option>
           <option value="time-table">Time-table</option>
         </select>
         <br />

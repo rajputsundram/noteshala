@@ -1,13 +1,13 @@
 import React from "react";
 import { AuthProvider } from '../../context/Authcontext'
+import Authprovider from '../components/Authprovider/AuthProvider'
+
 import type { Metadata } from "next";
 import "./globals.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
-
 import ThemeProviderWrapper from "../components/ThemeProviderWrapper";
 
 
@@ -24,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Authprovider>
       <AuthProvider>
       <ToastContainer theme="dark"/>
         <ThemeProviderWrapper>
@@ -32,6 +33,7 @@ export default function RootLayout({
         <Footer/>
         </ThemeProviderWrapper>
         </AuthProvider>
+        </Authprovider>
       </body>
     </html>
   );

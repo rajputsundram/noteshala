@@ -2,9 +2,11 @@
 
 import React, { useState } from "react";
 import { MdDelete } from "react-icons/md";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { format, parseISO } from "date-fns";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 const BlogItems = ({
   title,
@@ -16,11 +18,16 @@ const BlogItems = ({
   description,
   topics = [],
 }) => {
+  const uploadAreaimg = "/images/upload_area.png";
+  // Initialize image state to an empty string (or a default image URL if desired)
+  const [image, setImage] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [localTopics, setLocalTopics] = useState(topics);
+  const [showTopics, setShowTopics] = useState(false); // For fold/unfold topics
   const [formData, setFormData] = useState({
     heading: title || "",
     description: description || "",
+    image: "", // Will store the file object when selected
   });
 
   // Parse and format ISO dates
@@ -37,7 +44,16 @@ const BlogItems = ({
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImage(previewUrl); // Update preview image
+      setFormData((prev) => ({ ...prev, image: file })); // Store file object
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -48,18 +64,24 @@ const BlogItems = ({
     }
 
     try {
-      const response = await axios.put(`/api/blogs?id=${mongoId}`, formData, {
-        headers: { "Content-Type": "application/json" },
+      const formDataToSend = new FormData();
+      formDataToSend.append("heading", formData.heading);
+      formDataToSend.append("description", formData.description);
+      // Append image only if it's a File object
+      if (formData.image instanceof File) {
+        formDataToSend.append("image", formData.image);
+      }
+
+      const response = await axios.put(`/api/blogs?id=${mongoId}`, formDataToSend, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       if (response.data.success) {
         toast.success("Blog updated successfully!");
-        if (response.data.updatedBlog?.topics) {
-          setLocalTopics(response.data.updatedBlog.topics);
-        }
         setShowForm(false);
-        // Clear form after success
-        setFormData({ heading: "", description: "" });
+        // Clear form and preview image
+        setFormData({ heading: "", description: "", image: "" });
+        setImage("");
       } else {
         throw new Error(response.data.error || "Failed to update the blog.");
       }
@@ -110,11 +132,11 @@ const BlogItems = ({
           {updatedDisplay}
         </td>
         <td
-  onClick={() => deleteBlog(mongoId)}
-  className="px-4 py-3 text-xl text-red-600 text-center cursor-pointer hover:scale-110 flex justify-center items-center"
->
-  <MdDelete />
-</td>
+          onClick={() => deleteBlog(mongoId)}
+          className="px-4 py-3 text-xl text-red-600 text-center cursor-pointer hover:scale-110 flex justify-center items-center"
+        >
+          <MdDelete />
+        </td>
         <td className="px-4 py-3">
           <button
             onClick={() => setShowForm(true)}
@@ -125,37 +147,49 @@ const BlogItems = ({
         </td>
       </tr>
 
-      {/* Topics List */}
+      {/* Topics List with Foldable/Unfoldable Feature */}
       {localTopics.length > 0 ? (
         <tr>
           <td colSpan="6">
             <div className="w-full p-4 bg-gray-100 dark:bg-gray-800 rounded-md">
-              <h3 className="text-xl font-semibold text-center text-gray-900 dark:text-white mb-3">
-                Topics:
-              </h3>
-              <div className="w-full overflow-x-auto">
-                <ul className="w-full list-none space-y-2">
-                  {localTopics.map((topic) => (
-                    <li
-                      key={topic._id}
-                      className="w-full flex justify-between items-center px-4 py-3 border-b border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-base text-gray-700 dark:text-gray-300"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded-full">
-                          Topic
-                        </span>
-                        <span className="font-medium">{topic.heading}</span>
-                      </div>
-                      <button
-                        onClick={() => deleteTopic(topic._id)}
-                        className="p-2 rounded-md transition-all duration-200 hover:bg-red-100 dark:hover:bg-red-900"
-                      >
-                        <MdDelete className="text-red-500 text-xl" />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+              {/* Topics Header with Toggle Button */}
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-semibold text-center text-gray-900 dark:text-white mb-3">
+                  Topics:
+                </h3>
+                <button
+                  onClick={() => setShowTopics(!showTopics)}
+                  className="p-2 rounded-md transition-all duration-200 hover:bg-gray-200 dark:hover:bg-gray-700"
+                >
+                  {showTopics ? <FaChevronUp /> : <FaChevronDown />}
+                </button>
               </div>
+              {/* Conditionally render topics list */}
+              {showTopics && (
+                <div className="w-full overflow-x-auto">
+                  <ul className="w-full list-none space-y-2">
+                    {localTopics.map((topic) => (
+                      <li
+                        key={topic._id}
+                        className="w-full flex justify-between items-center px-4 py-3 border-b border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-base text-gray-700 dark:text-gray-300"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded-full">
+                            Topic
+                          </span>
+                          <span className="font-medium">{topic.heading}</span>
+                        </div>
+                        <button
+                          onClick={() => deleteTopic(topic._id)}
+                          className="p-2 rounded-md transition-all duration-200 hover:bg-red-100 dark:hover:bg-red-900"
+                        >
+                          <MdDelete className="text-red-500 text-xl" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </td>
         </tr>
@@ -171,9 +205,9 @@ const BlogItems = ({
       {showForm && (
         <tr>
           <td colSpan="6" className="p-4 bg-gray-100 dark:bg-gray-800 rounded-md">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
               <div className="mb-3">
-                <label className="block text-sm font-medium text-center dark:text-gray-300">
+                <label className="block text-sm font-medium dark:text-gray-300">
                   Heading:
                 </label>
                 <input
@@ -186,7 +220,7 @@ const BlogItems = ({
                 />
               </div>
               <div className="mb-3">
-                <label className="block text-sm font-medium text-center dark:text-gray-300">
+                <label className="block text-sm font-medium dark:text-gray-300">
                   Description:
                 </label>
                 <textarea
@@ -197,7 +231,27 @@ const BlogItems = ({
                   required
                 ></textarea>
               </div>
-              <div className="flex justify-center gap-4">
+              <div className="mb-4">
+                <label className="block text-sm font-medium dark:text-gray-300">
+                  Image: (optional)
+                </label>
+                <label htmlFor="image">
+                  <Image
+                    className="mt-4"
+                    src={image || uploadAreaimg}
+                    width={140}
+                    height={70}
+                    alt="Thumbnail Preview"
+                  />
+                </label>
+                <input
+                  type="file"
+                  id="image"
+                  hidden
+                  onChange={handleImageChange}
+                />
+              </div>
+              <div className="flex justify-start gap-4">
                 <button
                   type="submit"
                   className="bg-green-500 text-white px-5 py-2 rounded-md text-base"

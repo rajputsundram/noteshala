@@ -51,7 +51,7 @@ const Navbar = () => {
   const links = [
     { name: "Home", path: "/" },
     { name: "About", path: "/About" },
-    { name: "Departments", path: "/Departments" },
+    { name: "Departments", path: "#" },
     { name: "Blogs", path: "/Blogs" },
     { name: "Contact us", path: "/ContactUs" },
   ];
