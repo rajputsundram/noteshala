@@ -1,3 +1,2 @@
-
-const otpStore = new Map();
-export default otpStore;
+const otpMap = new Map();
+export const otpStore = otpMap;

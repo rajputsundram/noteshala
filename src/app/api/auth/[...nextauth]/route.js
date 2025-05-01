@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions = {
+const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -11,24 +11,26 @@ export const authOptions = {
   callbacks: {
     async signIn({ user }) {
       try {
-        // Send user data to your backend
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google-login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: user.email,
-            name: user.name,
-            image: user.image,
-          }),
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google-login`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: user.email,
+              name: user.name,
+              image: user.image,
+            }),
+          }
+        );
 
-        if (!response.ok) return false; // Reject login if backend fails
+        if (!response.ok) return false;
 
         const data = await response.json();
-        user.id = data.userId; // Store backend user ID
-
+        // Set the backend user ID on the user object
+        user.id = data.userId;
         return true;
       } catch (error) {
         console.error("Google login error:", error);
@@ -37,7 +39,7 @@ export const authOptions = {
     },
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id; // Store backend user ID in token
+        token.id = user.id;
         token.email = user.email;
       }
       return token;
@@ -52,4 +54,6 @@ export const authOptions = {
 };
 
 const handler = NextAuth(authOptions);
+
+// Export only the HTTP method handlers (GET, POST)
 export { handler as GET, handler as POST };

@@ -1,16 +1,15 @@
 {
   "extends": ["next/core-web-vitals"],
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
   "rules": {
     "@next/next/no-img-element": "off",
     "@typescript-eslint/no-unused-vars": "off",
-    // "no-undef": "off",
-      "no-undef": "error",
-    
-          "react-hooks/rules-of-hooks": "off",
-          "react/no-unescaped-entities": "off",
-          "react/jsx-key": "off"
-           
-        
-      }
+    "no-undef": "error",
+    "react-hooks/rules-of-hooks": "off",
+    "react/no-unescaped-entities": "off",
+    "react/jsx-key": "off"
   }
-
+}
