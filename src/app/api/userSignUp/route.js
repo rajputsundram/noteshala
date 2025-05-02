@@ -3,7 +3,8 @@ import { ConnectDB } from "../../../lib/config/db";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 import { NextResponse } from "next/server";
-import otpStore from "../../../lib/Store/otp-store";
+import { otpStore } from "../../../lib/Store/otp-store";
+ // Ensure this file exports a Map instance as default
 
 export async function POST(request) {
   try {
@@ -36,9 +37,9 @@ export async function POST(request) {
 
     // Configure Nodemailer transporter using custom SMTP details
     let transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST, // 
-      port: Number(process.env.EMAIL_PORT), // e.g., 465
-      secure: process.env.EMAIL_SECURE === "true", // true for 465, false for other ports
+      host: process.env.EMAIL_HOST,
+      port: Number(process.env.EMAIL_PORT),
+      secure: process.env.EMAIL_SECURE === "true",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -47,12 +48,13 @@ export async function POST(request) {
 
     // Email content
     let mailOptions = {
-      from:process.env.my_email,
+      from: process.env.my_email,
       to: email,
       subject: "Verify Your Email - OTP",
       text: `Your OTP is: ${otp}. It is valid for 5 minutes.`,
     };
-console.log(otp)
+
+    console.log(otp);
     await transporter.sendMail(mailOptions);
 
     return NextResponse.json({
