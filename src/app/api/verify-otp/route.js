@@ -3,7 +3,7 @@ import { ConnectDB } from "../../../lib/config/db";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
-import otpStore from "../../../lib/Store/otp-store";
+import { otpStore } from "../../../lib/Store/otp-store";
 
 export async function POST(request) {
   try {
