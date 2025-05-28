@@ -21,7 +21,8 @@ const Highlights = () => {
         <div className=' flex justify-center gap-16 sm:gap-8 items-center flex-wrap'>
           {
             Highlts.map((items, index) => {
-              return (<>
+              return (
+              <>
                 <div key={index} className='h-[280px] w-[330px] gap-5 relative  flex flex-col p-6 justify-center items-center border border-gray-300'>
                   <div className='flex justify-center items-center bg-green-600 absolute text-white text-3xl rounded-sm h-12 w-16 mb-[270px] hover:text-green-600 hover:bg-white' key={index}>{items.icons}</div>
                   <h1 key={index} className='font-semibold text-xl'>{items.name}</h1>

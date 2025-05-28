@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Link from "next/link";
-import { useAuth } from "../../../context/Authcontext"; // ✅ Import Auth Context
+import { useAuth } from "../../../context/Authcontext"; // Import Auth Context
 import { signIn, useSession } from "next-auth/react";
 function Login() {
     const router = useRouter();
-    const { checkAuth } = useAuth(); // ✅ Get checkAuth function
+    const { checkAuth } = useAuth(); //  Get checkAuth function
     const [credentials, setCredentials] = useState({ email: "", password: "" });
 
     const handleChange = (e) => {
@@ -27,16 +27,16 @@ function Login() {
             const response = await axios.post("/api/LogIn", formData);
 
             if (response.data.success) {
-                // ✅ Clear form data
+                // Clear form data
                 setCredentials({ email: "", password: "" });
 
-                // ✅ Show success toast
+                // Show success toast
                 toast.success(response.data.msg);
 
-                // ✅ Update authentication state
+                // Update authentication state
                 await checkAuth(); // Check authentication after login
 
-                // ✅ Redirect after a short delay
+                // Redirect after a short delay
                 setTimeout(() => {
                     router.push(response.data.redirect);
                 }, 100);

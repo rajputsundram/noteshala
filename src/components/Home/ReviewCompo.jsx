@@ -1,97 +1,78 @@
-'use client';
+"use client";
 
 import React from 'react';
 import Image from 'next/image';
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { IoIosStar } from "react-icons/io";
 import Slider from 'react-slick';
-// import userImg from '../../../public/assets/user.png';
 
-const star = [<IoIosStar/>, <IoIosStar/>, <IoIosStar/>, <IoIosStar/>];
-
+/**
+ * ReviewCompo displays user reviews with dark/light styling via Tailwind's dark: classes.
+ */
 const ReviewCompo = () => {
-    const settings = {
-        autoplay: true,
-        autoplaySpeed: 3000,
-        infinite: true,
-        arrows: false,
-        speed: 500,
-        slidesToShow: 1, // Show only one slide at a time
-        slidesToScroll: 1,
-        centerMode: true, // Center the active slide
-        centerPadding: '0px', // No padding on either side of the centered slide
-        responsive: [
-            {
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 1,
-                centerPadding: '0px', // Adjust padding for medium screens
-              }
-            },
-            {
-              breakpoint: 768,
-              settings: {
-                slidesToShow: 1,
-                centerPadding: '0px', // Adjust padding for small screens
-              }
-            },
-        ]
-    };
+  const settings = {
+    autoplay: true,
+    autoplaySpeed: 3000,
+    infinite: true,
+    arrows: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    centerMode: true,
+    centerPadding: '0px',
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 1, centerPadding: '0px' } },
+      { breakpoint: 768, settings: { slidesToShow: 1, centerPadding: '0px' } }
+    ]
+  };
 
+  const reviewData = [
+    { name: "Aarav Sharma", review: "Noteshala's notes are comprehensive and clear, making my exam prep far easier." },
+    { name: "Saanvi Singh", review: "I appreciate the well-organized resources. They saved me hours of searching." },
+    { name: "Vivaan Patel", review: "The interface is user-friendly, and the content quality is top-notch." },
+    { name: "Ananya Gupta", review: "Excellent platform! It helped me score high on my semester tests." },
+    { name: "Arjun Kumar", review: "The previous year papers section is a lifesaver for practicing." },
+    { name: "Diya Reddy", review: "I love the range of subjects covered. Everything I need is here." },
+    { name: "Krishna Iyer", review: "The blogs and tips keep me motivated and informed." },
+    { name: "Ishaan Mehta", review: "Noteshala has transformed how I study—highly recommend." },
+    { name: "Kavya Nair", review: "The design is sleek, and navigation is smooth. Great study companion." },
+    { name: "Rohan Verma", review: "A one-stop solution for all my study materials. Superb!" }
+  ];
 
-    const reviewData = [
-        { name: "Alice Johnson", review: "Noteshala has been a game-changer for my studies! The notes are detailed and easy to understand." },
-        { name: "Michael Smith", review: "Great platform! It saved me so much time while preparing for exams. Highly recommend!" },
-        { name: "Emma Wilson", review: "I love the organized layout of the website. It makes finding the right resources so easy!" },
-        { name: "David Brown", review: "The timetables and previous year question papers have been incredibly helpful in my revision." },
-        { name: "Sophia Davis", review: "Noteshala’s resources are top-notch! It's like having a personal study assistant." },
-        { name: "James Taylor", review: "I’ve never had such an efficient way to prepare for my exams. Love it!" },
-        { name: "Olivia Martinez", review: "The blogs and updates are insightful and provide a great way to stay engaged with the community." },
-        { name: "Benjamin Moore", review: "The variety of subjects available is impressive. I’ve found everything I need for my courses." },
-        { name: "Charlotte Clark", review: "As a student, Noteshala makes studying so much easier with all the resources in one place." },
-        { name: "Daniel Lee", review: "Noteshala has helped me stay organized and on top of my assignments. A must-have!" }
-      ];;
-
-    return (
-        <div className="max-w-screen-lg mx-auto mt-8 px-4"> 
-          <div className="text-center mb-8 mt-12">
-  <h2 className="text-3xl font-bold text-white inline-block border-b-4 border-green-400 pb-1">
-    Reviews
-  </h2>
-</div>
-            <Slider {...settings}>
-                {reviewData.map((items, index) => (
-                    <div key={index} className='px-4 my-12'>
-                        <div className='flex justify-center lg:justify-start gap-1 mb-2'>
-                            {star.map((item, starIndex) => (
-                                <p key={starIndex} className='text-blue-400 text-xl'>{item}</p>
-                            ))}
-                        </div>
-                        <p className="my-4 font-medium text-lg lg:text-xl text-center lg:text-left">{items.review}</p>
-                        <div className='flex justify-center lg:justify-start items-center text-center gap-4 lg:gap-6'>
-    <div className='relative h-20 w-20 flex items-center justify-center bg-green-500 rounded-full'>
-        {items.userImgs ? (
-            <Image 
-                src={items.userImgs} 
-                layout='fill' 
-                className='rounded-full object-cover' 
-                alt={items.userName} 
-            />
-        ) : (
-            <span className='text-xl  font-semibold text-white'>
-                {items.name.charAt(0).toUpperCase()}
-            </span>
-        )}
+  return (
+    <div className="max-w-screen-lg mx-auto mt-8 px-4 py-8 bg-gray-100 dark:bg-transparent transition-colors">
+      <div className="text-center mb-8 mt-12">
+        <h2 className="text-3xl font-bold inline-block border-b-4 pb-1 text-gray-800 dark:text-white border-green-600 dark:border-green-400">
+          Reviews
+        </h2>
+      </div>
+      <Slider {...settings}>
+        {reviewData.map((item, index) => (
+          <div key={index} className="px-4 my-12">
+            <div className="flex justify-center lg:justify-start gap-1 mb-2">
+              {[...Array(4)].map((_, i) => (
+                <IoIosStar key={i} className="text-yellow-600 dark:text-yellow-400 text-xl" />
+              ))}
+            </div>
+            <p className="my-4 font-medium text-lg lg:text-xl text-center lg:text-left text-gray-800 dark:text-gray-200">
+              {item.review}
+            </p>
+            <div className="flex justify-center lg:justify-start items-center gap-4 lg:gap-6">
+              <div className="relative h-20 w-20 flex items-center justify-center rounded-full bg-green-500 dark:bg-gray-700">
+                <span className="text-xl font-semibold text-white">
+                  {item.name.charAt(0)}
+                </span>
+              </div>
+              <span className="font-medium text-lg lg:text-xl text-gray-900 dark:text-white">
+                {item.name}
+              </span>
+            </div>
+          </div>
+        ))}
+      </Slider>
     </div>
-    <span className='font-medium text-lg lg:text-xl'>{items.name}</span>
-</div>
-
-                    </div>
-                ))}
-            </Slider>
-        </div>
-    )
-}
+  );
+};
 
 export default ReviewCompo;

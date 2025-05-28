@@ -12,8 +12,8 @@ export async function GET(request) {
         return NextResponse.json({ error: "Missing SECRET_KEY in environment variables" }, { status: 500 });
     }
 
-    // ✅ Correct way to access cookies
-    const token = request.cookies.get("token")?.value; // 👈 Fix: Use `request.cookies`
+    // Correct way to access cookies
+    const token = request.cookies.get("token")?.value; // Fix: Use `request.cookies`
     
     if (!token) {
         return NextResponse.json({ isAuthenticated: false, error: "No token found" }, { status: 401 });

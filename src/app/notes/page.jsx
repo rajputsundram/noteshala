@@ -5,16 +5,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation';
+import Loader from '../../components/Loader'; // <-- import your loader
 
 // Ensure dynamic rendering
 export const dynamic = 'force-dynamic';
 
 const NotesPage = () => {
   const [cardData, setCardData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams(); // Get URL parameters
 
   const fetchResources = async () => {
     try {
+      setLoading(true);
       // Extract query parameters from URL
       const year = searchParams.get("year");
       const department = searchParams.get("department");
@@ -24,18 +27,18 @@ const NotesPage = () => {
 
       // Construct query parameters for API request
       const params = { year, department, category };
-
       console.log("🚀 Fetching with params:", params);
 
       // Send GET request to the backend API with query params
       const response = await axios.get('/api/resources', { params });
-
       console.log("✅ API Response Data:", response.data);
 
       // Set the fetched resources into state
       setCardData(response.data.resources || []);
     } catch (error) {
       console.error("❌ Error fetching resources:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +57,9 @@ const NotesPage = () => {
       </div>
 
       <div className="flex flex-wrap justify-center gap-6 p-4">
-        {cardData.length > 0 ? (
+        {loading ? (
+          <Loader />
+        ) : cardData.filter(item => item.semester === "first").length > 0 ? (
           cardData.filter(item => item.semester === "first").map((item, index) => (
             <div
               key={index}
@@ -97,7 +102,9 @@ const NotesPage = () => {
       </div>
 
       <div className="flex flex-wrap justify-center gap-6 p-4">
-        {cardData.length > 0 ? (
+        {loading ? (
+          <Loader />
+        ) : cardData.filter(item => item.semester === "second").length > 0 ? (
           cardData.filter(item => item.semester === "second").map((item, index) => (
             <div
               key={index}
@@ -138,7 +145,7 @@ const NotesPage = () => {
 
 // ✅ Wrap the component in Suspense (optional but recommended for a better UX)
 const Page = () => (
-  <Suspense fallback={<div className="text-white text-center">Loading...</div>}>
+  <Suspense fallback={<Loader />}>
     <NotesPage />
   </Suspense>
 );

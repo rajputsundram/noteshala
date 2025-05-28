@@ -4,45 +4,70 @@ import Image from 'next/image'
 import Link from 'next/link'
 import axios from 'axios'
 import { useSearchParams } from 'next/navigation'
+import Loading from '../../components/Loader'
 
-// Ensure dynamic rendering for this page
 export const dynamic = 'force-dynamic';
 
 const SyllabusPage = () => {
   const [cardData, setCardData] = useState([]);
-  const searchParams = useSearchParams(); // Get URL parameters
+  const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
 
   const fetchResources = async () => {
     try {
-      // Extract query parameters from URL
+      setLoading(true);
+
       const year = searchParams.get("year");
       const department = searchParams.get("department");
       const category = searchParams.get("category");
 
-      console.log("🔍 Extracted URL Params:", { year, department, category });
-
-      // Construct query parameters for API request
       const params = { year, department, category };
-
-      console.log("🚀 Fetching with params:", params);
-
-      // Send GET request to the backend API with query params
       const response = await axios.get('/api/resources', { params });
 
-      console.log("✅ API Response Data:", response.data);
-
-      // Set the fetched resources into state
       setCardData(response.data.resources || []);
     } catch (error) {
       console.error("❌ Error fetching resources:", error);
+      setCardData([]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Trigger fetch when search parameters change
   useEffect(() => {
-    console.log("🔄 useEffect triggered. Fetching resources...");
     fetchResources();
-  }, [searchParams.toString()]); // Ensures re-fetching when search parameters change
+  }, [searchParams.toString()]);
+
+  const renderCardsBySemester = (semester) => {
+    const filtered = cardData.filter(item => item.semester === semester);
+
+    if (loading) return <Loading />;
+    if (!loading && filtered.length === 0) {
+      return <p className="text-white text-center w-full">No resources found.</p>;
+    }
+
+    return filtered.map((item, index) => (
+      <div key={index} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 max-w-xs bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-[350px]">
+        <div className="h-48">
+          <Image
+            src={'/images/dsa.png'}
+            width={200}
+            height={150}
+            alt="Card Image"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="p-4 flex flex-col justify-between h-full">
+          <h2 className="text-lg font-bold mb-2 text-black">{item.title}</h2>
+          <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">{item.description}</p>
+          <div className="mt-auto">
+            <Link href={item.link || '#'} className="inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition w-full text-center">
+              Open Now
+            </Link>
+          </div>
+        </div>
+      </div>
+    ));
+  };
 
   return (
     <div>
@@ -53,40 +78,7 @@ const SyllabusPage = () => {
       </div>
 
       <div className="flex flex-wrap justify-center gap-6 p-4">
-        {cardData.length > 0 ? (
-          cardData.filter(item => item.semester === "first").map((item, index) => (
-            <div
-              key={index}
-              className="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 max-w-xs bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-[350px]"
-            >
-              <div className="h-48">
-                <Image
-                  src={'/images/dsa.png'}
-                  width={200}
-                  height={150}
-                  alt="Card Image"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4 flex flex-col justify-between h-full">
-                <h2 className="text-lg font-bold mb-2 text-black">{item.title}</h2>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
-                  {item.description}
-                </p>
-                <div className="mt-auto">
-                  <Link
-                    href={item.link || '#'}
-                    className="inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition w-full text-center"
-                  >
-                    Open Now
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-center text-white">No resources found.</p>
-        )}
+        {renderCardsBySemester("first")}
       </div>
 
       <div className="text-center mb-8 mt-12">
@@ -96,48 +88,14 @@ const SyllabusPage = () => {
       </div>
 
       <div className="flex flex-wrap justify-center gap-6 p-4">
-        {cardData.length > 0 ? (
-          cardData.filter(item => item.semester === "second").map((item, index) => (
-            <div
-              key={index}
-              className="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 max-w-xs bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-[350px]"
-            >
-              <div className="h-48">
-                <Image
-                  src={'/images/dsa.png'}
-                  width={200}
-                  height={150}
-                  alt="Card Image"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4 flex flex-col justify-between h-full">
-                <h2 className="text-lg font-bold mb-2 text-black">{item.title}</h2>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
-                  {item.description}
-                </p>
-                <div className="mt-auto">
-                  <Link
-                    href={item.link || '#'}
-                    className="inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition w-full text-center"
-                  >
-                    Open Now
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-center text-white">No resources found.</p>
-        )}
+        {renderCardsBySemester("second")}
       </div>
     </div>
   );
 };
 
-// ✅ Wrap the component in Suspense (optional but recommended for a better UX)
 const Page = () => (
-  <Suspense fallback={<div className="text-white text-center">Loading...</div>}>
+  <Suspense fallback={<Loading />}>
     <SyllabusPage />
   </Suspense>
 );
