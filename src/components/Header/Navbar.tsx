@@ -59,13 +59,13 @@ const Navbar = () => {
   };
 
   // Navigation links
-  const links = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/About" },
-    { name: "Departments", path: "/department" },
-    { name: "Blogs", path: "/Blogs" },
-    { name: "Contact us", path: "/ContactUs" },
-  ];
+ const links = [
+  { name: 'home', path: '/' },
+  { name: 'about', path: '/about' },
+  { name: 'departments', path: '/departments' },
+  { name: 'blogs', path: '/Blogs' },
+  { name: 'contact', path: '/contactus' },
+]
 
   return (
     <div className="flex h-32 items-center justify-between px-8">
