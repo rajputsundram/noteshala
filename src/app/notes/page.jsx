@@ -27,16 +27,16 @@ const NotesPage = () => {
 
       // Construct query parameters for API request
       const params = { year, department, category };
-      console.log("🚀 Fetching with params:", params);
+      console.log("Fetching with params:", params);
 
       // Send GET request to the backend API with query params
       const response = await axios.get('/api/resources', { params });
-      console.log("✅ API Response Data:", response.data);
+      console.log("API Response Data:", response.data);
 
       // Set the fetched resources into state
       setCardData(response.data.resources || []);
     } catch (error) {
-      console.error("❌ Error fetching resources:", error);
+      console.error(" Error fetching resources:", error);
     } finally {
       setLoading(false);
     }
@@ -44,9 +44,9 @@ const NotesPage = () => {
 
   // Trigger fetch when search parameters change
   useEffect(() => {
-    console.log("🔄 useEffect triggered. Fetching resources...");
+    console.log("useEffect triggered. Fetching resources...");
     fetchResources();
-  }, [searchParams.toString()]); // Ensures re-fetching when search parameters change
+  }, [searchParams.toString()]);
 
   return (
     <div>
